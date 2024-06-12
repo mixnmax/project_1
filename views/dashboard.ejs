@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.1/font/bootstrap-icons.min.css">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">
+                <img src="/images/logo_INTI_putih.png" alt="Logo INTI" style="height: 40px;">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/logout">Logout</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Sidebar and Content -->
+    <div class="d-flex">
+        <div class="bg-light border" id="sidebar">
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a class="nav-link" href="#" data-content="dashboard_main">
+                        <i class="bi bi-speedometer2"></i> Dashboard
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" data-bs-toggle="collapse" data-bs-target="#permohonanAksesMenu" aria-expanded="false" aria-controls="permohonanAksesMenu">
+                        <i class="bi bi-key"></i> Permohonan Akses
+                    </a>
+                    <div class="collapse" id="permohonanAksesMenu">
+                        <ul class="nav flex-column ms-3">
+                            <li class="nav-item"><a class="nav-link" href="#" data-content="form_akses_baru"><i class="bi bi-file-earmark-plus"></i> Form Akses Baru</a></li>
+                            <li class="nav-item"><a class="nav-link" href="#" data-content="form_akses_lama"><i class="bi bi-file-earmark-text"></i> Form Akses Lama</a></li>
+                            <li class="nav-item"><a class="nav-link" href="#" data-content="history_permohonan_akses"><i class="bi bi-clock-history"></i> History Permohonan Akses</a></li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" data-bs-toggle="collapse" data-bs-target="#pengujianKeamananMenu" aria-expanded="false" aria-controls="pengujianKeamananMenu">
+                        <i class="bi bi-shield-lock"></i> Pengujian Keamanan Aplikasi
+                    </a>
+                    <div class="collapse" id="pengujianKeamananMenu">
+                        <ul class="nav flex-column ms-3">
+                            <li class="nav-item"><a class="nav-link" href="#" data-content="form_pengujian_internal"><i class="bi bi-file-earmark-lock"></i> Form Pengujian Internal</a></li>
+                            <li class="nav-item"><a class="nav-link" href="#" data-content="form_pengujian_eksternal"><i class="bi bi-file-earmark-lock2"></i> Form Pengujian Eksternal</a></li>
+                            <li class="nav-item"><a class="nav-link" href="#" data-content="historyPengujianInternal"><i class="bi bi-clock-history"></i> History Pengujian Internal</a></li>
+                            <li class="nav-item"><a class="nav-link" href="#" data-content="historyPengujianEksternal"><i class="bi bi-clock-history"></i> History Pengujian Eksternal</a></li>
+                        </ul>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="content p-4" id="main-content">
+            <h1 class="reduce-margin">Welcome <%= username %></h1>
+            <div id="dynamicContent" class="content-section">
+                <!-- Konten dinamis akan dimuat di sini -->
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            document.querySelectorAll('a[data-content]').forEach(function (link) {
+                link.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const contentId = this.getAttribute('data-content');
+                    fetch('/' + contentId)
+                        .then(response => response.text())
+                        .then(html => {
+                            document.getElementById('dynamicContent').innerHTML = html;
+                        });
+                });
+            });
+
+            // Muat halaman dashboard utama secara default
+            fetch('/dashboard_main')
+                .then(response => response.text())
+                .then(html => {
+                    document.getElementById('dynamicContent').innerHTML = html;
+                });
+        });
+    </script>
+</body>
+</html>

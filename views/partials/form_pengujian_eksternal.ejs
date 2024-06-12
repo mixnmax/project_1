@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Form Pengujian Keamanan Eksternal</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/form_style.css">
+</head>
+<body>
+    <div class="card form-card">
+        <div class="card-header form-header">
+            Form Pengujian Keamanan Aplikasi Eksternal
+        </div>
+        <div class="card-body">
+            <form id="formPengujianEksternal" enctype="multipart/form-data">
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="tanggal_permintaan" class="form-label">Tanggal Permintaan:</label>
+                        <input type="date" id="tanggal_permintaan" name="tanggal_permintaan" class="form-control form-control-sm">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="nama_aplikasi" class="form-label">Nama Aplikasi:</label>
+                        <input type="text" id="nama_aplikasi" name="nama_aplikasi" class="form-control form-control-sm">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="ip" class="form-label">Alamat IP:</label>
+                        <input type="text" id="ip" name="ip" class="form-control form-control-sm">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="pic_aplikasi" class="form-label">Nama PIC Aplikasi:</label>
+                        <input type="text" id="pic_aplikasi" name="pic_aplikasi" class="form-control form-control-sm">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="kick_off" class="form-label">Tanggal Kick Off:</label>
+                        <input type="date" id="kick_off" name="kick_off" class="form-control form-control-sm">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="surat_permintaan_bssn" class="form-label">Surat Permintaan BSSN:</label>
+                        <input type="text" id="surat_permintaan_bssn" name="surat_permintaan_bssn" class="form-control form-control-sm">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="pic_bssn" class="form-label">PIC BSSN:</label>
+                        <input type="text" id="pic_bssn" name="pic_bssn" class="form-control form-control-sm">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="tanggal_paparan" class="form-label">Tanggal Paparan:</label>
+                        <input type="date" id="tanggal_paparan" name="tanggal_paparan" class="form-control form-control-sm">
+                    </div>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <a href="/" class="btn btn-secondary btn-sm">Kembali</a>
+                    <button type="submit" class="btn btn-primary btn-sm">Submit</button>
+                </div>
+            </form>
+            <div id="notification" class="alert alert-success mt-3" style="display: none;">
+                Data berhasil disimpan!
+            </div>
+        </div>
+    </div>
+</body>
+</html>

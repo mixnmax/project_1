@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>History Pengujian Keamanan Internal</title>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.5/css/jquery.dataTables.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/history_pengujian_internal.css">
+</head>
+<body>
+<div class="container mt-5">
+    <h1>History Pengujian Keamanan Aplikasi Internal</h1>
+    <div class="table-responsive">
+        <table class="table table-striped" id="tablePengujianHistory">
+            <thead>
+                <tr>
+                    <th>Tanggal Pengajuan</th>
+                    <th>Nama Aplikasi</th>
+                    <th>Nama PIC</th>
+                    <th>Email PIC</th>
+                    <th>Nomor Telepon</th>
+                    <th>Unit Kerja</th>
+                    <th>URL Aplikasi</th>
+                    <th>Alamat IP</th>
+                    <th>Versi Aplikasi</th>
+                    <th>Jenis Aplikasi</th>
+                    <th>Framework</th>
+                    <th>Bahasa Pemrograman</th>
+                    <th>Sistem Database</th>
+                    <th>WEB Server</th>
+                    <th>Dokumen Pendukung</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% data.forEach(item => { %>
+                    <tr>
+                        <td><%= item.tanggal %></td>
+                        <td><%= item.nama_aplikasi %></td>
+                        <td><%= item.nama_pic %></td>
+                        <td><%= item.email_pic %></td>
+                        <td><%= item.nomor_telepon %></td>
+                        <td><%= item.unit_kerja %></td>
+                        <td><%= item.url_aplikasi %></td>
+                        <td><%= item.alamat_ip %></td>
+                        <td><%= item.versi_aplikasi %></td>
+                        <td><%= item.jenis_aplikasi %></td>
+                        <td><%= item.framework %></td>
+                        <td><%= item.bahasa_pemrograman %></td>
+                        <td><%= item.sistem_database %></td>
+                        <td><%= item.web_server %></td>
+                        <td><%= item.dokumen_pendukung ? 'Ada' : 'Tidak Ada' %></td>
+                    </tr>
+                <% }); %>
+            </tbody>
+        </table>
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
+<script>
+$(document).ready(function() {
+    $('#tablePengujianHistory').DataTable({
+        "language": {
+            "url": "//cdn.datatables.net/plug-ins/1.13.5/i18n/id.json"
+        }
+    });
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Form Permohonan Akses Lojik</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/form_style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="card form-card">
+            <div class="card-header form-header">
+                Form Permohonan Akses Lojik Lama
+            </div>
+            <div class="card-body">
+                <form id="formPermohonan" action="/submit-permohonan-lama" method="post" enctype="multipart/form-data">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="tanggal_permohonan" class="form-label">Tanggal Permohonan:</label>
+                            <input type="date" id="tanggal_permohonan" name="tanggal_permohonan" class="form-control">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="username_vpn" class="form-label">Username VPN:</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="Masukan username VPN" id="search_username_vpn" name="search_username_vpn">
+                                <div class="input-group-append">
+                                    <button class="btn btn-outline-secondary" type="button" id="searchBtn"><i class="fa fa-search"></i></button>
+                                </div>
+                            </div>                          
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="nama_pemohon" class="form-label">Nama Pemohon:</label>
+                            <input type="text" id="nama_pemohon" name="nama_pemohon" class="form-control">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="nip_nik" class="form-label">NIP/NIK:</label>
+                            <input type="text" id="nip_nik" name="nip_nik" class="form-control">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="unit_kerja" class="form-label">Unit Kerja:</label>
+                            <input type="text" id="unit_kerja" name="unit_kerja" class="form-control">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="email" class="form-label">Email:</label>
+                            <input type="email" id="email" name="email" class="form-control">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="ip_server" class="form-label">IP Server:</label>
+                            <input type="text" id="ip_server" name="ip_server" class="form-control">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="service" class="form-label">Service:</label>
+                            <div class="form-check form-check-inline">
+                                <input type="checkbox" id="wifi_bkn" name="service[]" value="HTTP" class="form-check-input">
+                                <label for="wifi_bkn" class="form-check-label">RDP</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input type="checkbox" id="vpn" name="service[]" value="HTTPS" class="form-check-input">
+                                <label for="vpn" class="form-check-label">SSH</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input type="checkbox" id="db" name="service[]" value="SSH" class="form-check-input">
+                                <label for="db" class="form-check-label">DB</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="port" class="form-label">Port:</label>
+                            <input type="text" id="port" name="port" class="form-control">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="akses" class="form-label">Akses:</label>
+                            <input type="text" id="akses" name="akses" class="form-control">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="dokumen_pendukung" class="form-label">Dokumen Pendukung:</label>
+                            <input type="file" id="dokumen_pendukung" name="dokumen_pendukung" class="form-control">
+                        </div>
+                    </div>
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary btn-block">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div aria-live="polite" aria-atomic="true" class="position-relative">
+        <div class="toast-container position-absolute top-0 end-0 p-3">
+            <div class="toast" id="successToast" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="3000">
+                <div class="toast-header">
+                    <strong class="me-auto">Notifikasi</strong>
+                    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+                <div class="toast-body">
+                    Form berhasil disubmit!
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/form_akses_lama.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var form = document.getElementById('formPermohonan');
+            var toastEl = document.getElementById('successToast');
+            var toast = new bootstrap.Toast(toastEl);
+
+            form.addEventListener('submit', function(event) {
+                event.preventDefault();
+                toast.show();
+            });
+        });
+
+        document.getElementById('searchBtn').addEventListener('click', function() {
+            var usernameVpn = document.getElementById('search_username_vpn').value;
+            if (usernameVpn) {
+                $.ajax({
+                    url: '/api/search-username-vpn', // URL endpoint yang menangani pencarian
+                    type: 'GET',
+                    data: { username_vpn: usernameVpn },
+                    success: function(response) {
+                        if (response.length > 0) {
+                            var data = response[0];
+                            document.getElementById('nama_pemohon').value = data.nama_pemohon;
+                            document.getElementById('nip_nik').value = data.nip_nik;
+                            document.getElementById('unit_kerja').value = data.unit_kerja;
+                        } else {
+                            alert('Username VPN tidak ditemukan.');
+                        }
+                    },
+                    error: function(error) {
+                        console.error('Error fetching data: ', error);
+                    }
+                });
+            } else {
+                alert('Masukkan username VPN yang valid.');
+            }
+        });
+    </script>
+</body>
+</html>

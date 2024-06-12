@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>History Permohonan Akses</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/dataTables.bootstrap5.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.2.3/css/buttons.bootstrap5.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Tambahkan CSS khusus untuk halaman ini -->
+    <link rel="stylesheet" type="text/css" href="/css/history_permohonan_akses.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1>History Permohonan Akses</h1>
+        <form action="/export-excel" method="get">
+            <input type="date" name="startDate" required>
+            <input type="date" name="endDate" required>
+            <button type="submit" class="btn btn-primary" id="exportExcel">Generate Laporan Excel</button>
+        </form>
+        <div class="history-card card">
+            <div class="card-header">
+                Data Permohonan Akses
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table" id="tablePermohonanHistory">
+                        <thead>
+                            <tr>
+                                <th>Tanggal Permohonan</th>
+                                <th>Nama Pemohon</th>
+                                <th>NIP/NIK</th>
+                                <th>Unit Kerja</th>
+                                <th>Email</th>
+                                <th>IP Server</th>
+                                <th>Service</th>
+                                <th>Port</th>
+                                <th>Akses</th>
+                                <th>Username VPN</th>
+                                <th>Dokumen Pendukung</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% data.forEach(permohonan => { %>
+                                <tr>
+                                    <td><%= moment(permohonan.tanggal_permohonan).format('DD-MM-YYYY') %></td>
+                                    <td><%= permohonan.nama_pemohon %></td>
+                                    <td><%= permohonan.nip_nik %></td>
+                                    <td><%= permohonan.unit_kerja %></td>
+                                    <td><%= permohonan.email %></td>
+                                    <td><%= permohonan.ip_server %></td>
+                                    <td><%= permohonan.service.split(',').join(", ") %></td>
+                                    <td><%= permohonan.port %></td>
+                                    <td><%= permohonan.akses %></td>
+                                    <td><%= permohonan.username_vpn %></td>
+                                    <td>
+                                        <% if (permohonan.dokumen_pendukung) { %>
+                                            <a href="<%= permohonan.dokumen_pendukung %>" target="_blank">Lihat Dokumen</a>
+                                        <% } else { %>
+                                            Tidak ada dokumen
+                                        <% } %>
+                                    </td>
+                                </tr>
+                            <% }); %>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- DataTables -->
+    <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap5.min.js"></script>
+
+    <!-- Buttons -->
+    <script src="https://cdn.datatables.net/buttons/2.2.3/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.bootstrap5.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.html5.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            var table = $('#tablePermohonanHistory').DataTable({
+                "processing": true,
+                "serverSide": true,
+                "ajax": {
+                    "url": "/history-permohonan-akses",
+                    "data": function (d) {
+                        d.startDate = $('input[name="startDate"]').val();
+                        d.endDate = $('input[name="endDate"]').val();
+                    }
+                },
+                "columns": [
+                    { "data": "tanggal_permohonan", "orderable": true },
+                    { "data": "nama_pemohon", "orderable": true },
+                    { "data": "unit_kerja", "orderable": true },
+                    { "data": "nip_nik", "orderable": true },
+                    { "data": "email", "orderable": true },
+                    { "data": "ip_server", "orderable": true },
+                    { "data": "service", "orderable": true },
+                    { "data": "port", "orderable": true },
+                    { "data": "akses", "orderable": true },
+                    { "data": "username_vpn", "orderable": true },
+                    { "data": "dokumen_pendukung", "orderable": true }
+                ],
+                "dom": 'Bfrtip',
+                "buttons": [
+                    'copy', 'csv', 'excel', 'pdf', 'print'
+                ]
+            });
+
+            $('form').on('submit', function(e) {
+                e.preventDefault();
+                table.ajax.reload();
+            });
+        });
+    </script>
+</body>
+</html>
